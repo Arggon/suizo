@@ -1,8 +1,9 @@
 ---
 type: task
-status: todo
+status: done
 id: task-issue-5
 title: "issue #5: Tie-breakers"
+assignee: Arggon
 parent: story-imported-issues
 labels: [enhancement]
 created: "2026-09-13"

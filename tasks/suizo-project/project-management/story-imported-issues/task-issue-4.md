@@ -1,8 +1,9 @@
 ---
 type: task
-status: todo
+status: done
 id: task-issue-4
 title: "issue #4: Web UI mínima"
+assignee: Arggon
 parent: story-imported-issues
 labels: [enhancement]
 created: "2026-09-13"

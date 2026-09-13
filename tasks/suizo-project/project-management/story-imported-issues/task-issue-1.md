@@ -1,8 +1,9 @@
 ---
 type: task
-status: todo
+status: done
 id: task-issue-1
 title: "issue #1: Swiss pairing engine"
+assignee: Arggon
 parent: story-imported-issues
 labels: [enhancement]
 created: "2026-09-13"

@@ -1,8 +1,9 @@
 ---
 type: task
-status: todo
+status: done
 id: task-issue-2
 title: "issue #2: Standings / tabla de posiciones"
+assignee: Arggon
 parent: story-imported-issues
 labels: [enhancement]
 created: "2026-09-13"

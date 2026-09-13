@@ -1,6 +1,6 @@
 ---
 type: story
-status: todo
+status: done
 id: story-imported-issues
 title: Imported GitHub issues
 parent: project-management

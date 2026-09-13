@@ -1,8 +1,9 @@
 ---
 type: task
-status: todo
+status: done
 id: task-issue-3
 title: "issue #3: Gestión de rondas y resultados"
+assignee: Arggon
 parent: story-imported-issues
 labels: [enhancement]
 created: "2026-09-13"
