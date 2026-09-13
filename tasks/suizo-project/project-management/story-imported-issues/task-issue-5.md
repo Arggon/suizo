@@ -22,3 +22,6 @@ Real tie-break systems for standings, in the order the chess world expects them:
 - [ ] Documented formula per tie-break in docs/FORMAT.md or the standings docs.
 - [ ] Table-driven tests with known small tournaments and hand-computed values.
 > imported from issue #5
+
+### 2026-09-13 @Arggon
+Implemented via swiss-pairing-engine/standings-table/rounds/ui/tie-breakers stories (PRs #8-#12 merged).
