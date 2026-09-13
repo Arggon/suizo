@@ -1,13 +1,17 @@
 ---
 type: story
-status: todo
+status: in_progress
 id: rounds-and-results-management
 title: Rounds and results management
+assignee: Arggon
+branch: feat/rounds-and-results-management
 parent: v01-mvp-features
 labels: []
 created: "2026-09-13"
 updated: "2026-09-13"
+claimed_at: "2026-09-13T23:00:24.916Z"
 depends_on: [swiss-pairing-engine]
+worktree_path: /home/arggon/Projects/suizo-rounds-and-results-management
 ---
 <!--
   Placement (v0): tasks/suizo-product/v01-mvp-features/rounds-and-results-management/rounds-and-results-management.md (story index; required).
