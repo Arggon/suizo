@@ -1,6 +1,6 @@
 ---
 type: epic
-status: todo
+status: done
 id: project-management
 title: Project management
 parent: suizo-project

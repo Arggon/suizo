@@ -1,6 +1,6 @@
 ---
 type: initiative
-status: todo
+status: done
 id: suizo-project
 title: suizo project
 labels: []
