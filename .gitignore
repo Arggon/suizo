@@ -1,3 +1,5 @@
 /suizo
 /suizo.json
 *.tmp-*
+/.v2c/
+/.video_agent/
