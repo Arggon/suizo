@@ -50,3 +50,6 @@ verb (`suizo pair`) goes in `main.go`.
 - Conflict course: this story and `standings-table` both extend the
   `Tournament` struct in `tournament.go` — that merge is resolved by the
   coordinator (experiment: stress scenario 2).
+
+### 2026-09-13 @Arggon
+Implemented by race winner (see experiment log: claim race produced TWO ok:true starts — claim non-atomicity filed as ArggonManager finding). PR #8 merged. Spec + plan flipped to implemented in the same PR.
