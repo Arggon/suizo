@@ -7,6 +7,7 @@ parent: v01-mvp-features
 labels: []
 created: "2026-09-13"
 updated: "2026-09-13"
+depends_on: [swiss-pairing-engine]
 ---
 <!--
   Placement (v0): tasks/suizo-product/v01-mvp-features/rounds-and-results-management/rounds-and-results-management.md (story index; required).
@@ -15,12 +16,31 @@ updated: "2026-09-13"
 
 # Rounds and results management
 
+Implements GitHub issue #3. Follow `docs/playbooks/go.md`.
+
 ## Context
 
-<!-- Why this story exists. -->
+Drive a tournament through its rounds: start the next round (pair + persist),
+report results per board, show pending/done status.
+
+**File placement constraint (coordinator order):** add round lifecycle methods
+on `*Tournament` IN `tournament.go` (same file pairing and standings extend —
+the coordinator resolves the resulting merge). CLI verbs in `main.go`, tests
+in `rounds_test.go`.
+
+Commands: `suizo rounds start` (pair + open next round), `suizo results
+<round> <board> <1-0|0-1|0.5-0.5>` (board is 1-based), `suizo rounds status`.
 
 ## Acceptance
 
-- [ ] 
+- [ ] `rounds start` refuses while the last round has pending matches.
+- [ ] `results` validates: round exists, board exists, result is one of the three legal values.
+- [ ] `rounds status` prints per-board pending/done.
+- [ ] Table-driven tests for the lifecycle: start → partial results → completion blocked → completion allowed.
+- [ ] `go test ./...`, `go vet ./...`, `golangci-lint run` all clean.
 
 ## Notes
+
+- `rounds start` reuses `Pairings()` from the pairing story — if that story
+  has not landed yet, build against its documented signature and note the
+  integration point here (the coordinator merges both).
