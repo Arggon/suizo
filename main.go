@@ -222,7 +222,8 @@ func runRoundsStatus(args []string, s *store, stdout, stderr io.Writer) int {
 	return 0
 }
 
-// runStandings prints the score table: Rk, Name, Pts and matches played.
+// runStandings prints the score table: Rk, Name, Pts, matches played and the
+// tie-breaker columns (Buchholz, Buchholz Cut 1, direct encounter).
 func runStandings(s *store, stdout, stderr io.Writer) int {
 	t, err := s.load()
 	if err != nil {
@@ -235,7 +236,9 @@ func runStandings(s *store, stdout, stderr io.Writer) int {
 		return 0
 	}
 	for _, r := range rows {
-		fmt.Fprintf(stdout, "%d\t%s\t%s\t%d\n", r.Rank, r.Name, formatPoints(r.Points), r.Played)
+		fmt.Fprintf(stdout, "%d\t%s\t%s\t%d\t%s\t%s\t%s\n",
+			r.Rank, r.Name, formatPoints(r.Points), r.Played,
+			formatPoints(r.Buchholz), formatPoints(r.BuchholzCut1), formatPoints(r.Direct))
 	}
 	return 0
 }

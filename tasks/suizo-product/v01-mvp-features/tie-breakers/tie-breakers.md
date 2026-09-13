@@ -34,10 +34,10 @@ chess practice expects.
 
 ## Acceptance
 
-- [ ] `Standing` gains Buchholz (sum of opponents' scores), Buchholz Cut 1 (drop lowest opponent score) and direct-encounter columns.
-- [ ] `suizo standings` prints the new columns; formulas documented in docs/FORMAT.md.
-- [ ] Table-driven tests with known small tournaments and hand-computed Buchholz values, plus a case where direct encounter decides between two tied players.
-- [ ] `go test ./...`, `go vet ./...`, `golangci-lint run` all clean.
+- [x] `Standing` gains Buchholz (sum of opponents' scores), Buchholz Cut 1 (drop lowest opponent score) and direct-encounter columns.
+- [x] `suizo standings` prints the new columns; formulas documented in docs/FORMAT.md.
+- [x] Table-driven tests with known small tournaments and hand-computed Buchholz values, plus a case where direct encounter decides between two tied players.
+- [x] `go test ./...`, `go vet ./...`, `golangci-lint run` all clean.
 
 ## Notes
 
