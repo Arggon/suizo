@@ -44,3 +44,6 @@ coordinator). CLI verb in `main.go`, tests in `standings_test.go`.
 
 - Depends on `swiss-pairing-engine` only for score-group semantics — the
   standings code itself is independent and may proceed in parallel.
+
+### 2026-09-13 @Arggon
+Implemented in PR #9 (merged). Standings/matchesPlayed appended to tournament.go; suizo standings verb.
