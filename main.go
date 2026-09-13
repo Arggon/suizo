@@ -58,21 +58,20 @@ func runPlayers(args []string, s *store, stdout, stderr io.Writer) int {
 			fmt.Fprintln(stderr, "usage: suizo players add <name>")
 			return 2
 		}
-		t, err := s.load()
+		var id string
+		err := s.update(func(t *Tournament) error {
+			p, err := t.addPlayer(args[1])
+			if err != nil {
+				return err
+			}
+			id = p.ID
+			return nil
+		})
 		if err != nil {
 			fmt.Fprintf(stderr, "suizo: %v\n", err)
 			return 1
 		}
-		p, err := t.addPlayer(args[1])
-		if err != nil {
-			fmt.Fprintf(stderr, "suizo: %v\n", err)
-			return 1
-		}
-		if err := s.save(t); err != nil {
-			fmt.Fprintf(stderr, "suizo: %v\n", err)
-			return 1
-		}
-		fmt.Fprintf(stdout, "%s\n", p.ID)
+		fmt.Fprintf(stdout, "%s\n", id)
 		return 0
 	case "list":
 		t, err := s.load()
