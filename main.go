@@ -19,6 +19,7 @@ Usage:
   suizo rounds status [N]    Show per-board pending/done for round N (default: latest)
   suizo results <round> <board> <1-0|0-1|0.5-0.5>
                              Report a result; board is 1-based within the round
+  suizo standings            Print the score table
 
 State file: $SUIZO_FILE (default ./suizo.json)
 `
@@ -53,6 +54,8 @@ func run(args []string, path string, stdout, stderr io.Writer) int {
 		return runRounds(args[1:], s, stdout, stderr)
 	case "results":
 		return runResults(args[1:], s, stderr)
+	case "standings":
+		return runStandings(s, stdout, stderr)
 	default:
 		fmt.Fprintf(stderr, "suizo: unknown command %q\n\n%s", args[0], usage)
 		return 2
@@ -214,6 +217,24 @@ func runRoundsStatus(args []string, s *store, stdout, stderr io.Writer) int {
 	return 0
 }
 
+// runStandings prints the score table: Rk, Name, Pts and matches played.
+func runStandings(s *store, stdout, stderr io.Writer) int {
+	t, err := s.load()
+	if err != nil {
+		fmt.Fprintf(stderr, "suizo: %v\n", err)
+		return 1
+	}
+	rows := t.Standings()
+	if len(rows) == 0 {
+		fmt.Fprintln(stdout, "(no players yet)")
+		return 0
+	}
+	for _, r := range rows {
+		fmt.Fprintf(stdout, "%d\t%s\t%s\t%d\n", r.Rank, r.Name, formatPoints(r.Points), r.Played)
+	}
+	return 0
+}
+
 // runResults validates its arguments and persists one board result.
 func runResults(args []string, s *store, stderr io.Writer) int {
 	if len(args) != 3 {
@@ -255,4 +276,9 @@ func roundNumber(rounds []Round, requested int) int {
 		return requested
 	}
 	return rounds[len(rounds)-1].Number
+}
+
+// formatPoints renders a score without a trailing .0: 1, 1.5, 0.5.
+func formatPoints(p float64) string {
+	return strconv.FormatFloat(p, 'f', -1, 64)
 }

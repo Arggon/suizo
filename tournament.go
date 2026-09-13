@@ -345,3 +345,56 @@ func (t *Tournament) round(n int) (*Round, error) {
 	}
 	return r, nil
 }
+
+// Standing is one row of the standings table: a player's rank (1-based),
+// points (win 1, draw 0.5, loss 0, bye 1), matches played and name.
+type Standing struct {
+	Rank   int
+	ID     string
+	Name   string
+	Points float64
+	Played int
+}
+
+// matchesPlayed counts the rounds in which the player took part, either in a
+// reported game or on a bye. Unreported pairings do not count as played.
+func (t *Tournament) matchesPlayed(id string) int {
+	var n int
+	for _, r := range t.Rounds {
+		for _, m := range r.Matches {
+			if m.IsBye {
+				if m.White == id {
+					n++
+				}
+				continue
+			}
+			if m.Result != "" && (m.White == id || m.Black == id) {
+				n++
+				break
+			}
+		}
+	}
+	return n
+}
+
+// Standings returns the score table ordered by points desc, ties broken by
+// numeric player id asc. Pure read: it never mutates the tournament.
+func (t *Tournament) Standings() []Standing {
+	ids := t.rankedIDs()
+	rows := make([]Standing, 0, len(ids))
+	for i, id := range ids {
+		p := t.player(id)
+		name := ""
+		if p != nil {
+			name = p.Name
+		}
+		rows = append(rows, Standing{
+			Rank:   i + 1,
+			ID:     id,
+			Name:   name,
+			Points: t.score(id),
+			Played: t.matchesPlayed(id),
+		})
+	}
+	return rows
+}
