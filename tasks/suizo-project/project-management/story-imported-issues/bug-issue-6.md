@@ -1,6 +1,6 @@
 ---
 type: bug
-status: in_progress
+status: done
 id: bug-issue-6
 title: "issue #6: Bug: concurrent CLI invocations silently lose writes (no file locking)"
 assignee: Arggon
@@ -9,7 +9,6 @@ parent: story-imported-issues
 labels: [bug]
 created: "2026-09-13"
 updated: "2026-09-13"
-claimed_at: "2026-09-13T22:47:49.166Z"
 issue: 6
 ---
 ## Found while
