@@ -48,3 +48,6 @@ Commands: `suizo rounds start` (pair + open next round), `suizo results
 - `rounds start` reuses `Pairings()` from the pairing story — if that story
   has not landed yet, build against its documented signature and note the
   integration point here (the coordinator merges both).
+
+### 2026-09-13 @Arggon
+Implemented in PR #10 (merged). The merge into main after PR #9 conflicted in tournament.go + main.go (coordinator resolution: both feature blocks kept, documented in merge commit 6af344b — stress experiment 2 evidence).
