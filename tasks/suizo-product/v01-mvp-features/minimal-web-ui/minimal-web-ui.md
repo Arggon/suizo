@@ -34,10 +34,10 @@ methods already defined in `tournament.go` (do not duplicate domain logic).
 
 ## Acceptance
 
-- [ ] `suizo serve` binds 127.0.0.1 only and serves: standings page, current-round page with result dropdowns (form POST → domain method), players page.
-- [ ] Server-side `html/template` rendering; zero JS build; auto-refresh via `<meta http-equiv="refresh">`.
-- [ ] `httptest`-based tests (1.27 `NewTestServer` or classic) covering GET pages + a POST result report round-trip.
-- [ ] `go test ./...`, `go vet ./...`, `golangci-lint run` all clean.
+- [x] `suizo serve` binds 127.0.0.1 only and serves: standings page, current-round page with result dropdowns (form POST → domain method), players page.
+- [x] Server-side `html/template` rendering; zero JS build; auto-refresh via `<meta http-equiv="refresh">`.
+- [x] `httptest`-based tests (1.27 `NewTestServer` or classic) covering GET pages + a POST result report round-trip.
+- [x] `go test ./...`, `go vet ./...`, `golangci-lint run` all clean.
 
 ## Notes
 

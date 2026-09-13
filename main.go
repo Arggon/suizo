@@ -20,6 +20,9 @@ Usage:
   suizo results <round> <board> <1-0|0-1|0.5-0.5>
                              Report a result; board is 1-based within the round
   suizo standings            Print the score table
+  suizo serve [--addr host:port]
+                             Serve the local web UI (default 127.0.0.1:8080,
+                             override with --addr or $SUIZO_ADDR); loopback only
 
 State file: $SUIZO_FILE (default ./suizo.json)
 `
@@ -56,6 +59,8 @@ func run(args []string, path string, stdout, stderr io.Writer) int {
 		return runResults(args[1:], s, stderr)
 	case "standings":
 		return runStandings(s, stdout, stderr)
+	case "serve":
+		return runServe(args[1:], s, stdout, stderr)
 	default:
 		fmt.Fprintf(stderr, "suizo: unknown command %q\n\n%s", args[0], usage)
 		return 2
