@@ -256,3 +256,92 @@ func (t *Tournament) Pairings() ([]Match, error) {
 	}
 	return matches, nil
 }
+
+// pending reports whether a match still awaits a result. Byes are done as
+// soon as they are paired: they carry no result by definition.
+func pendingMatch(m Match) bool {
+	return !m.IsBye && m.Result == ""
+}
+
+// StartRound opens round N+1: it refuses while the last round still has
+// pending matches, otherwise computes fresh pairings via Pairings(), appends
+// the new round and returns its number and boards. The caller persists.
+func (t *Tournament) StartRound() (int, []Match, error) {
+	if n := len(t.Rounds); n > 0 {
+		for _, m := range t.Rounds[n-1].Matches {
+			if pendingMatch(m) {
+				return 0, nil, fmt.Errorf("%w: round %d", errRoundPending, t.Rounds[n-1].Number)
+			}
+		}
+	}
+	ms, err := t.Pairings()
+	if err != nil {
+		return 0, nil, err
+	}
+	num := len(t.Rounds) + 1
+	t.Rounds = append(t.Rounds, Round{Number: num, Matches: ms})
+	return num, ms, nil
+}
+
+// SetResult records result on the given board (1-based) of the given round
+// (1-based number). It validates the result value, the round and the board,
+// and rejects byes; the caller persists.
+func (t *Tournament) SetResult(round, board int, result string) error {
+	switch result {
+	case "1-0", "0-1", "0.5-0.5":
+	default:
+		return errIllegalResult
+	}
+	r, err := t.round(round)
+	if err != nil {
+		return err
+	}
+	if board < 1 || board > len(r.Matches) {
+		return fmt.Errorf("board %d does not exist in round %d (1-%d)", board, round, len(r.Matches))
+	}
+	m := &r.Matches[board-1]
+	if m.IsBye {
+		return fmt.Errorf("%w: board %d of round %d", errByeResult, board, round)
+	}
+	m.Result = result
+	return nil
+}
+
+// BoardStatus is the reporting state of one board within a round.
+type BoardStatus struct {
+	Board int
+	Match Match
+	Done  bool
+}
+
+// RoundStatus returns the per-board pending/done state of the given round
+// number; round <= 0 selects the latest round.
+func (t *Tournament) RoundStatus(round int) ([]BoardStatus, error) {
+	if round <= 0 {
+		if len(t.Rounds) == 0 {
+			return nil, errNoRounds
+		}
+		round = t.Rounds[len(t.Rounds)-1].Number
+	}
+	r, err := t.round(round)
+	if err != nil {
+		return nil, err
+	}
+	status := make([]BoardStatus, len(r.Matches))
+	for i, m := range r.Matches {
+		status[i] = BoardStatus{Board: i + 1, Match: m, Done: !pendingMatch(m)}
+	}
+	return status, nil
+}
+
+// round returns the round with the given 1-based number.
+func (t *Tournament) round(n int) (*Round, error) {
+	if n < 1 || n > len(t.Rounds) {
+		return nil, fmt.Errorf("round %d does not exist (1-%d)", n, len(t.Rounds))
+	}
+	r := &t.Rounds[n-1]
+	if r.Number != n {
+		return nil, fmt.Errorf("round %d does not exist (1-%d)", n, len(t.Rounds))
+	}
+	return r, nil
+}

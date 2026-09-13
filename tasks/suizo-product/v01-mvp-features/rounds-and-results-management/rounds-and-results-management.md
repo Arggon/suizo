@@ -37,11 +37,11 @@ Commands: `suizo rounds start` (pair + open next round), `suizo results
 
 ## Acceptance
 
-- [ ] `rounds start` refuses while the last round has pending matches.
-- [ ] `results` validates: round exists, board exists, result is one of the three legal values.
-- [ ] `rounds status` prints per-board pending/done.
-- [ ] Table-driven tests for the lifecycle: start → partial results → completion blocked → completion allowed.
-- [ ] `go test ./...`, `go vet ./...`, `golangci-lint run` all clean.
+- [x] `rounds start` refuses while the last round has pending matches.
+- [x] `results` validates: round exists, board exists, result is one of the three legal values.
+- [x] `rounds status` prints per-board pending/done.
+- [x] Table-driven tests for the lifecycle: start → partial results → completion blocked → completion allowed.
+- [x] `go test ./...`, `go vet ./...`, `golangci-lint run` all clean.
 
 ## Notes
 
