@@ -37,3 +37,6 @@ Both players persist; ids never collide; the loser of the race retries or blocks
 ## Direction
 Advisory file lock (`syscall.Flock` on a sidecar lockfile, or O_EXCL lock file with retry+timeout) around the load→save cycle. Must stay stdlib-only and must not break the single-user fast path.
 > imported from issue #6
+
+### 2026-09-13 @Arggon
+Fixed by racer agent A (of the claim-race experiment): advisory flock sidecar + store.update() RMW. Repro loop closed: 30 iterations of concurrent players add, 0 lost writes (was 21/30 lost). PR #7 merged to main (6eceea9 + a0e391f).
