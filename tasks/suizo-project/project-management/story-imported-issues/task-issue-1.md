@@ -23,3 +23,6 @@ Implement the Swiss pairing algorithm: given the current tournament state (playe
 - [ ] Table-driven tests covering: even/odd player counts, repeat-opponent avoidance with floating, byes never repeat, color alternation.
 - [ ] docs/FORMAT.md unchanged (pairing writes only existing fields).
 > imported from issue #1
+
+### 2026-09-13 @Arggon
+Implemented via swiss-pairing-engine/standings-table/rounds/ui/tie-breakers stories (PRs #8-#12 merged).
