@@ -1,6 +1,6 @@
 ---
 type: story
-status: in_progress
+status: done
 id: tie-breakers
 title: Tie-breakers
 assignee: Arggon
@@ -9,7 +9,6 @@ parent: v01-mvp-features
 labels: []
 created: "2026-09-13"
 updated: "2026-09-13"
-claimed_at: "2026-09-13T23:20:23.468Z"
 worktree_path: /home/arggon/Projects/suizo-tie-breakers
 ---
 <!--
