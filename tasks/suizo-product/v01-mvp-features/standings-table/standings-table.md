@@ -35,10 +35,10 @@ coordinator). CLI verb in `main.go`, tests in `standings_test.go`.
 
 ## Acceptance
 
-- [ ] `suizo standings` prints `Rk  Name  Pts  played` with byes counted as a full point.
-- [ ] Identical scores order deterministically (id asc).
-- [ ] Table-driven tests: multi-round accumulation, byes, draws, empty tournament.
-- [ ] `go test ./...`, `go vet ./...`, `golangci-lint run` all clean.
+- [x] `suizo standings` prints `Rk  Name  Pts  played` with byes counted as a full point.
+- [x] Identical scores order deterministically (id asc).
+- [x] Table-driven tests: multi-round accumulation, byes, draws, empty tournament.
+- [x] `go test ./...`, `go vet ./...`, `golangci-lint run` all clean.
 
 ## Notes
 
