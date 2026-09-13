@@ -1,6 +1,6 @@
 ---
 type: story
-status: in_progress
+status: done
 id: swiss-pairing-engine
 title: Swiss pairing engine
 assignee: Arggon
@@ -9,7 +9,6 @@ parent: v01-mvp-features
 labels: []
 created: "2026-09-13"
 updated: "2026-09-13"
-claimed_at: "2026-09-13T22:53:05.568Z"
 worktree_path: /home/arggon/Projects/suizo-swiss-pairing-engine
 ---
 <!--
