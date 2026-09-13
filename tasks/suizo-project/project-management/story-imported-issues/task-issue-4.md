@@ -22,3 +22,6 @@ A minimal local web UI over the same JSON state, using **net/http stdlib only** 
 - [ ] Rendering server-side html/template; zero client build.
 - [ ] Concurrent access with the CLI does not corrupt state (see bug #6 — the fix is a prerequisite).
 > imported from issue #4
+
+### 2026-09-13 @Arggon
+Implemented via swiss-pairing-engine/standings-table/rounds/ui/tie-breakers stories (PRs #8-#12 merged).
