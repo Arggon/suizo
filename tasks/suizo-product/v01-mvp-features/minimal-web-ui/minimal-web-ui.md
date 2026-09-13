@@ -1,13 +1,17 @@
 ---
 type: story
-status: todo
+status: in_progress
 id: minimal-web-ui
 title: Minimal web UI
+assignee: Arggon
+branch: feat/minimal-web-ui
 parent: v01-mvp-features
 labels: []
 created: "2026-09-13"
 updated: "2026-09-13"
+claimed_at: "2026-09-13T23:10:56.510Z"
 depends_on: [rounds-and-results-management]
+worktree_path: /home/arggon/Projects/suizo-minimal-web-ui
 ---
 <!--
   Placement (v0): tasks/suizo-product/v01-mvp-features/minimal-web-ui/minimal-web-ui.md (story index; required).
@@ -30,10 +34,10 @@ methods already defined in `tournament.go` (do not duplicate domain logic).
 
 ## Acceptance
 
-- [ ] `suizo serve` binds 127.0.0.1 only and serves: standings page, current-round page with result dropdowns (form POST → domain method), players page.
-- [ ] Server-side `html/template` rendering; zero JS build; auto-refresh via `<meta http-equiv="refresh">`.
-- [ ] `httptest`-based tests (1.27 `NewTestServer` or classic) covering GET pages + a POST result report round-trip.
-- [ ] `go test ./...`, `go vet ./...`, `golangci-lint run` all clean.
+- [x] `suizo serve` binds 127.0.0.1 only and serves: standings page, current-round page with result dropdowns (form POST → domain method), players page.
+- [x] Server-side `html/template` rendering; zero JS build; auto-refresh via `<meta http-equiv="refresh">`.
+- [x] `httptest`-based tests (1.27 `NewTestServer` or classic) covering GET pages + a POST result report round-trip.
+- [x] `go test ./...`, `go vet ./...`, `golangci-lint run` all clean.
 
 ## Notes
 
