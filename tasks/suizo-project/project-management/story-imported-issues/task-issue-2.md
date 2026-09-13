@@ -25,3 +25,6 @@ Rk  Name           Pts  played
 - [ ] Players with identical scores order deterministically (stable tie order for now; real tie-breakers are issue #5).
 - [ ] Table-driven tests for score accumulation across several rounds.
 > imported from issue #2
+
+### 2026-09-13 @Arggon
+Implemented via swiss-pairing-engine/standings-table/rounds/ui/tie-breakers stories (PRs #8-#12 merged).
