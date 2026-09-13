@@ -1,12 +1,16 @@
 ---
 type: story
-status: todo
+status: in_progress
 id: tie-breakers
 title: Tie-breakers
+assignee: Arggon
+branch: feat/tie-breakers
 parent: v01-mvp-features
 labels: []
 created: "2026-09-13"
 updated: "2026-09-13"
+claimed_at: "2026-09-13T23:20:23.468Z"
+worktree_path: /home/arggon/Projects/suizo-tie-breakers
 ---
 <!--
   Placement (v0): tasks/suizo-product/v01-mvp-features/tie-breakers/tie-breakers.md (story index; required).
@@ -30,10 +34,10 @@ chess practice expects.
 
 ## Acceptance
 
-- [ ] `Standing` gains Buchholz (sum of opponents' scores), Buchholz Cut 1 (drop lowest opponent score) and direct-encounter columns.
-- [ ] `suizo standings` prints the new columns; formulas documented in docs/FORMAT.md.
-- [ ] Table-driven tests with known small tournaments and hand-computed Buchholz values, plus a case where direct encounter decides between two tied players.
-- [ ] `go test ./...`, `go vet ./...`, `golangci-lint run` all clean.
+- [x] `Standing` gains Buchholz (sum of opponents' scores), Buchholz Cut 1 (drop lowest opponent score) and direct-encounter columns.
+- [x] `suizo standings` prints the new columns; formulas documented in docs/FORMAT.md.
+- [x] Table-driven tests with known small tournaments and hand-computed Buchholz values, plus a case where direct encounter decides between two tied players.
+- [x] `go test ./...`, `go vet ./...`, `golangci-lint run` all clean.
 
 ## Notes
 

@@ -68,6 +68,35 @@ futura web UI son vistas sobre él.
 | `isBye`  | `bool`    | `true` en el punto libre de la ronda (omitido si false)  |
 | `result` | `string`  | `""` pendiente, `"1-0"`, `"0-1"`, `"0.5-0.5"`            |
 
+## Tie-breakers (desempates)
+
+La tabla (`suizo standings`) ordena por: puntos (desc), Buchholz (desc),
+Buchholz Cut 1 (desc), encuentro directo (desc) y, como último recurso
+determinista, id numérico ascendente (`p2` antes que `p10`).
+
+### Buchholz
+
+Suma de los puntos totales de cada rival contra el que el jugador fue
+emparejado (victoria 1, tablas 0.5, derrota 0). Los emparejamientos sin
+resultado reportado sí cuentan como rivales (con sus puntos actuales).
+
+**Byes:** un bye no aporta rival — el punto libre no existe como contrario,
+así que no contribuye nada al Buchholz de nadie (ni propio ni ajeno).
+
+### Buchholz Cut 1
+
+Buchholz menos el puntaje del rival más débil. Si el jugador tiene menos de
+dos rivales, vale 0 (no se puede descartar nada con sentido).
+
+### Encuentro directo
+
+Suma de los puntos que el jugador obtuvo en partidas contra jugadores
+empatados con él en puntos (el grupo de empate completo, no solo el rival
+inmediato en la tabla). Partidas no reportadas y byes no suman. Si el jugador
+nunca cruzó a nadie de su grupo, vale 0 — no se extrapola por subgrupos
+(elección documentada: simple, determinista y suficiente para el alcance MVP;
+los sistemas de subgrupos tipo FIDE quedan fuera).
+
 ## Migraciones
 
 Ninguna todavía. Cuando el formato cambie por primera vez, se agrega acá la

@@ -347,13 +347,17 @@ func (t *Tournament) round(n int) (*Round, error) {
 }
 
 // Standing is one row of the standings table: a player's rank (1-based),
-// points (win 1, draw 0.5, loss 0, bye 1), matches played and name.
+// points (win 1, draw 0.5, loss 0, bye 1), matches played, the Buchholz
+// tie-breakers, the direct-encounter score and the name.
 type Standing struct {
-	Rank   int
-	ID     string
-	Name   string
-	Points float64
-	Played int
+	Rank          int
+	ID            string
+	Name          string
+	Points        float64
+	Played        int
+	Buchholz      float64
+	BuchholzCut1  float64
+	Direct        float64
 }
 
 // matchesPlayed counts the rounds in which the player took part, either in a
@@ -377,24 +381,152 @@ func (t *Tournament) matchesPlayed(id string) int {
 	return n
 }
 
-// Standings returns the score table ordered by points desc, ties broken by
-// numeric player id asc. Pure read: it never mutates the tournament.
+// opponents returns the ids of the players paired with id, each once, in
+// first-encounter order. Bye boards contribute no opponent: a bye opponent
+// does not exist, so byes add nothing to any Buchholz total.
+func (t *Tournament) opponents(id string) []string {
+	seen := make(map[string]bool)
+	var opps []string
+	for _, r := range t.Rounds {
+		for _, m := range r.Matches {
+			if m.IsBye {
+				continue
+			}
+			other := ""
+			switch {
+			case m.White == id:
+				other = m.Black
+			case m.Black == id:
+				other = m.White
+			default:
+				continue
+			}
+			if other == "" || seen[other] {
+				continue
+			}
+			seen[other] = true
+			opps = append(opps, other)
+		}
+	}
+	return opps
+}
+
+// buchholz returns the sum of the scores of every opponent the player was
+// paired against; bye boards contribute nothing.
+func (t *Tournament) buchholz(id string) float64 {
+	var s float64
+	for _, opp := range t.opponents(id) {
+		s += t.score(opp)
+	}
+	return s
+}
+
+// directEncounter returns the points id earned in games against players tied
+// with it on the given score group (win 1, draw 0.5, loss 0). It is 0 when
+// the player never met anyone from its tie group; unreported games and byes
+// contribute nothing.
+func (t *Tournament) directEncounter(id string, tied map[string]bool) float64 {
+	var s float64
+	for _, r := range t.Rounds {
+		for _, m := range r.Matches {
+			if m.IsBye || m.Result == "" {
+				continue
+			}
+			switch {
+			case m.White == id && tied[m.Black]:
+				s += resultPoints(m.Result, true)
+			case m.Black == id && tied[m.White]:
+				s += resultPoints(m.Result, false)
+			}
+		}
+	}
+	return s
+}
+
+// resultPoints converts a result string into the points earned by the white
+// side (white=true) or the black side (white=false).
+func resultPoints(result string, white bool) float64 {
+	switch result {
+	case "1-0":
+		if white {
+			return 1
+		}
+	case "0-1":
+		if !white {
+			return 1
+		}
+	case "0.5-0.5":
+		return 0.5
+	}
+	return 0
+}
+
+// Standings returns the score table ordered by points desc, then Buchholz
+// desc, then Buchholz Cut 1 desc, then direct encounter desc, with numeric
+// player id asc as the final deterministic fallback. Pure read: it never
+// mutates the tournament.
 func (t *Tournament) Standings() []Standing {
 	ids := t.rankedIDs()
+
+	// Tie groups: every player that shares a points total is tied with every
+	// other member of its group for direct-encounter purposes.
+	tied := make(map[float64]map[string]bool)
+	for _, id := range ids {
+		s := t.score(id)
+		if tied[s] == nil {
+			tied[s] = make(map[string]bool)
+		}
+		tied[s][id] = true
+	}
+
 	rows := make([]Standing, 0, len(ids))
-	for i, id := range ids {
+	for _, id := range ids {
 		p := t.player(id)
 		name := ""
 		if p != nil {
 			name = p.Name
 		}
+		bh := t.buchholz(id)
+		opps := t.opponents(id)
+		cut1 := 0.0
+		if len(opps) >= 2 {
+			lowest := t.score(opps[0])
+			for _, opp := range opps[1:] {
+				if s := t.score(opp); s < lowest {
+					lowest = s
+				}
+			}
+			cut1 = bh - lowest
+		}
 		rows = append(rows, Standing{
-			Rank:   i + 1,
-			ID:     id,
-			Name:   name,
-			Points: t.score(id),
-			Played: t.matchesPlayed(id),
+			ID:           id,
+			Name:         name,
+			Points:       t.score(id),
+			Played:       t.matchesPlayed(id),
+			Buchholz:     bh,
+			BuchholzCut1: cut1,
+			Direct:       t.directEncounter(id, tied[t.score(id)]),
 		})
+	}
+
+	sort.SliceStable(rows, func(i, j int) bool {
+		a, b := rows[i], rows[j]
+		if a.Points != b.Points {
+			return a.Points > b.Points
+		}
+		if a.Buchholz != b.Buchholz {
+			return a.Buchholz > b.Buchholz
+		}
+		if a.BuchholzCut1 != b.BuchholzCut1 {
+			return a.BuchholzCut1 > b.BuchholzCut1
+		}
+		if a.Direct != b.Direct {
+			return a.Direct > b.Direct
+		}
+		return playerIDLess(a.ID, b.ID)
+	})
+	for i := range rows {
+		rows[i].Rank = i + 1
 	}
 	return rows
 }
