@@ -1,7 +1,7 @@
 ---
 spec_id: swiss-pairing-001
 title: Swiss pairing engine
-status: proposed
+status: implemented
 created: 2026-09-13
 ---
 
