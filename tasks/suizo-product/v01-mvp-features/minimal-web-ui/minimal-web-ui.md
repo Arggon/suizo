@@ -42,3 +42,6 @@ methods already defined in `tournament.go` (do not duplicate domain logic).
 ## Notes
 
 - Depends on rounds/results methods landing (`rounds-and-results-management`).
+
+### 2026-09-13 @Arggon
+Implemented in PR #11 (merged). suizo serve: net/http + html/template only, loopback binding, standings/rounds/players pages, result + add-player forms via locked store.update.
