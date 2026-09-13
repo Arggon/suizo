@@ -22,3 +22,6 @@ Commands to drive the tournament through its rounds:
 - [ ] `rounds status` shows per-board pending/done at a glance.
 - [ ] Table-driven tests for the round lifecycle (start → partial results → completion).
 > imported from issue #3
+
+### 2026-09-13 @Arggon
+Implemented via swiss-pairing-engine/standings-table/rounds/ui/tie-breakers stories (PRs #8-#12 merged).
