@@ -2,7 +2,7 @@
 plan_id: swiss-pairing-001
 title: Plan for Swiss pairing engine
 spec: docs/specs/spec-swiss-pairing-001.md
-status: proposed
+status: implemented
 created: 2026-09-13
 ---
 

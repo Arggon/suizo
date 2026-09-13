@@ -13,6 +13,7 @@ const usage = `suizo - Swiss-system tournament manager
 Usage:
   suizo players add <name>   Register a player; prints its id
   suizo players list         List registered players
+  suizo pair                 Pair the next round, persist it and print boards
 
 State file: $SUIZO_FILE (default ./suizo.json)
 `
@@ -41,6 +42,8 @@ func run(args []string, path string, stdout, stderr io.Writer) int {
 	switch args[0] {
 	case "players":
 		return runPlayers(args[1:], s, stdout, stderr)
+	case "pair":
+		return runPair(s, stdout, stderr)
 	default:
 		fmt.Fprintf(stderr, "suizo: unknown command %q\n\n%s", args[0], usage)
 		return 2
@@ -91,4 +94,34 @@ func runPlayers(args []string, s *store, stdout, stderr io.Writer) int {
 		fmt.Fprintf(stderr, "suizo: unknown players command %q\n\n%s", args[0], usage)
 		return 2
 	}
+}
+
+// runPair computes the next round's pairings, appends them as round N+1 and
+// saves through the locked store, then prints one board per line.
+func runPair(s *store, stdout, stderr io.Writer) int {
+	var matches []Match
+	var round int
+	err := s.update(func(t *Tournament) error {
+		ms, err := t.Pairings()
+		if err != nil {
+			return err
+		}
+		matches = ms
+		round = len(t.Rounds) + 1
+		t.Rounds = append(t.Rounds, Round{Number: round, Matches: ms})
+		return nil
+	})
+	if err != nil {
+		fmt.Fprintf(stderr, "suizo: %v\n", err)
+		return 1
+	}
+	fmt.Fprintf(stdout, "Round %d\n", round)
+	for _, m := range matches {
+		if m.IsBye {
+			fmt.Fprintf(stdout, "Board: %s gets a bye\n", m.White)
+			continue
+		}
+		fmt.Fprintf(stdout, "Board: %s vs %s\n", m.White, m.Black)
+	}
+	return 0
 }
