@@ -1,0 +1,11 @@
+version: "2"
+
+linters:
+  settings:
+    errcheck:
+      exclude-functions:
+        # CLI output to our own writers: a failed print must not crash the
+        # reporting path; the process exit code carries the real signal.
+        - fmt.Fprint
+        - fmt.Fprintf
+        - fmt.Fprintln
