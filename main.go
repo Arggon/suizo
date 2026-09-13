@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 )
 
 const usage = `suizo - Swiss-system tournament manager
@@ -14,6 +15,7 @@ Usage:
   suizo players add <name>   Register a player; prints its id
   suizo players list         List registered players
   suizo pair                 Pair the next round, persist it and print boards
+  suizo standings            Print the score table
 
 State file: $SUIZO_FILE (default ./suizo.json)
 `
@@ -44,6 +46,8 @@ func run(args []string, path string, stdout, stderr io.Writer) int {
 		return runPlayers(args[1:], s, stdout, stderr)
 	case "pair":
 		return runPair(s, stdout, stderr)
+	case "standings":
+		return runStandings(s, stdout, stderr)
 	default:
 		fmt.Fprintf(stderr, "suizo: unknown command %q\n\n%s", args[0], usage)
 		return 2
@@ -124,4 +128,27 @@ func runPair(s *store, stdout, stderr io.Writer) int {
 		fmt.Fprintf(stdout, "Board: %s vs %s\n", m.White, m.Black)
 	}
 	return 0
+}
+
+// runStandings prints the score table: Rk, Name, Pts and matches played.
+func runStandings(s *store, stdout, stderr io.Writer) int {
+	t, err := s.load()
+	if err != nil {
+		fmt.Fprintf(stderr, "suizo: %v\n", err)
+		return 1
+	}
+	rows := t.Standings()
+	if len(rows) == 0 {
+		fmt.Fprintln(stdout, "(no players yet)")
+		return 0
+	}
+	for _, r := range rows {
+		fmt.Fprintf(stdout, "%d\t%s\t%s\t%d\n", r.Rank, r.Name, formatPoints(r.Points), r.Played)
+	}
+	return 0
+}
+
+// formatPoints renders a score without a trailing .0: 1, 1.5, 0.5.
+func formatPoints(p float64) string {
+	return strconv.FormatFloat(p, 'f', -1, 64)
 }

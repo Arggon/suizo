@@ -1,13 +1,17 @@
 ---
 type: story
-status: todo
+status: in_progress
 id: standings-table
 title: Standings table
+assignee: Arggon
+branch: feat/standings-table
 parent: v01-mvp-features
 labels: []
 created: "2026-09-13"
 updated: "2026-09-13"
+claimed_at: "2026-09-13T23:00:26.202Z"
 depends_on: [swiss-pairing-engine]
+worktree_path: /home/arggon/Projects/suizo-standings-table
 ---
 <!--
   Placement (v0): tasks/suizo-product/v01-mvp-features/standings-table/standings-table.md (story index; required).
@@ -31,10 +35,10 @@ coordinator). CLI verb in `main.go`, tests in `standings_test.go`.
 
 ## Acceptance
 
-- [ ] `suizo standings` prints `Rk  Name  Pts  played` with byes counted as a full point.
-- [ ] Identical scores order deterministically (id asc).
-- [ ] Table-driven tests: multi-round accumulation, byes, draws, empty tournament.
-- [ ] `go test ./...`, `go vet ./...`, `golangci-lint run` all clean.
+- [x] `suizo standings` prints `Rk  Name  Pts  played` with byes counted as a full point.
+- [x] Identical scores order deterministically (id asc).
+- [x] Table-driven tests: multi-round accumulation, byes, draws, empty tournament.
+- [x] `go test ./...`, `go vet ./...`, `golangci-lint run` all clean.
 
 ## Notes
 
