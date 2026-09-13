@@ -1,6 +1,6 @@
 ---
 type: epic
-status: todo
+status: done
 id: v01-mvp-features
 title: v0.1 MVP features
 parent: suizo-product

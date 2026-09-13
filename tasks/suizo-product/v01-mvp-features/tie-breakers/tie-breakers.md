@@ -1,6 +1,6 @@
 ---
 type: story
-status: todo
+status: done
 id: tie-breakers
 title: Tie-breakers
 parent: v01-mvp-features

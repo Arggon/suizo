@@ -1,8 +1,9 @@
 ---
 type: task
-status: todo
+status: done
 id: task-re-research-go
 title: "Re-research go playbook (vv1.27.1, 100 days old)"
+assignee: Arggon
 parent: tie-breakers
 labels: []
 created: "2026-09-13"
