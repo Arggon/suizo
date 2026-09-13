@@ -1,13 +1,17 @@
 ---
 type: story
-status: todo
+status: in_progress
 id: standings-table
 title: Standings table
+assignee: Arggon
+branch: feat/standings-table
 parent: v01-mvp-features
 labels: []
 created: "2026-09-13"
 updated: "2026-09-13"
+claimed_at: "2026-09-13T23:00:26.202Z"
 depends_on: [swiss-pairing-engine]
+worktree_path: /home/arggon/Projects/suizo-standings-table
 ---
 <!--
   Placement (v0): tasks/suizo-product/v01-mvp-features/standings-table/standings-table.md (story index; required).
