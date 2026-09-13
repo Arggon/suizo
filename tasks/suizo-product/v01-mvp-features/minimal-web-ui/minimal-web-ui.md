@@ -1,6 +1,6 @@
 ---
 type: story
-status: in_progress
+status: done
 id: minimal-web-ui
 title: Minimal web UI
 assignee: Arggon
@@ -9,7 +9,6 @@ parent: v01-mvp-features
 labels: []
 created: "2026-09-13"
 updated: "2026-09-13"
-claimed_at: "2026-09-13T23:10:56.510Z"
 depends_on: [rounds-and-results-management]
 worktree_path: /home/arggon/Projects/suizo-minimal-web-ui
 ---

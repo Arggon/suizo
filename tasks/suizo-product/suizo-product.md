@@ -1,6 +1,6 @@
 ---
 type: initiative
-status: todo
+status: done
 id: suizo-product
 title: suizo product
 labels: []
